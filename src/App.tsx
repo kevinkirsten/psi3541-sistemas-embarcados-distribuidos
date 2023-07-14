@@ -13,34 +13,15 @@ type LightResponse = {
   value: boolean;
 };
 
-interface Host {
-  name: string;
-  port: string;
-}
-
 function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [lights, setLights] = useState<Light[]>([]);
-  const [host, setHost] = useState<Host | null>();
+  const [host, setHost] = useState<string>();
 
-  const onHostNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onHostChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) return;
-    const hostName = event.target.value;
-    setHost((prevState) => ({
-      ...prevState,
-      port: prevState?.port || "3000",
-      name: hostName,
-    }));
-  };
-
-  const onHostPortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) return;
-    const port = event.target.value;
-    setHost((prevState) => ({
-      ...prevState,
-      name: prevState?.name || "localhost",
-      port,
-    }));
+    console.log(event.target.value);
+    setHost(event.target.value);
   };
 
   const onLightNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +44,8 @@ function App() {
   const fetchLights = async () => {
     setLoading(true);
     try {
-      if (!host || !host.name || !host.port) return;
-      const response = await fetch(`http://${host.name}:${host.port}/devices`, {
+      if (!host) return;
+      const response = await fetch(`${host}/devices`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -106,18 +87,15 @@ function App() {
 
   const changeLightStatus = async (lightId: number, status: LightStatus) => {
     try {
-      if (!host || !host.name || !host.port) return;
+      if (!host) return;
 
-      const response = await fetch(
-        `${host.name}:${host.port}/devices/${lightId}/${status}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const response = await fetch(`${host}/devices/${lightId}/${status}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
       if (response.status === 200) {
         setLights((prevState) =>
           prevState.map((light) => {
@@ -149,15 +127,7 @@ function App() {
           id="host"
           placeholder="Digite o Host aqui"
           className="p-2 border border-gray-300 rounded-md w-64"
-          onChange={onHostNameChange}
-        />
-        <input
-          type="text"
-          name="port"
-          id="port"
-          placeholder="3000"
-          className="p-2 border border-gray-300 rounded-md w-20"
-          onChange={onHostPortChange}
+          onChange={onHostChange}
         />
         <button
           className="p-2 bg-slate-900 text-white active:scale-95 rounded-md hover:bg-slate-800"
