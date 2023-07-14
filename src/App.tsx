@@ -109,7 +109,7 @@ function App() {
       if (!host || !host.name || !host.port) return;
 
       const response = await fetch(
-        `http://${host.name}:${host.port}/devices/${lightId}/${status}`,
+        `${host.name}:${host.port}/devices/${lightId}/${status}`,
         {
           method: "PUT",
           headers: {
