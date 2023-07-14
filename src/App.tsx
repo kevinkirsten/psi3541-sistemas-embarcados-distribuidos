@@ -47,6 +47,7 @@ function App() {
       if (!host) return;
       const response = await fetch(`${host}/devices`, {
         method: "GET",
+        mode: "no-cors"
       });
       const data: LightResponse[] = await response.json();
 
