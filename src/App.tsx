@@ -120,6 +120,12 @@ function App() {
         Projeto Final <br />
         PSI3541 - Sistemas Embarcados Distribuidos
       </h1>
+      <div className="flex flex-col">
+        <p className="text-center text-lg font-medium">Alunos:</p>
+        <p className="text-center text-lg">Kevin Kirsten Lucas 10853306</p>
+        <p className="text-center text-lg">Luiz Otavio A. Rodrigues 11262059</p>
+        <p className="text-center text-lg">Bruno Madeira Pires da Silva 4376491</p>
+      </div>
       <div className="flex gap-2">
         <input
           type="text"
