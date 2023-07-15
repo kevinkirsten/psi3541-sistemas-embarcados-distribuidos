@@ -48,10 +48,6 @@ function App() {
       const response = await fetch(`${host}/devices`, {
         method: "GET",
         mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
-        },
       });
       const data: LightResponse[] = await response.json();
 
@@ -93,10 +89,6 @@ function App() {
       const response = await fetch(`${host}/devices/${lightId}/${status}`, {
         method: "PUT",
         mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
-        },
       });
       if (response.status === 200) {
         setLights((prevState) =>
